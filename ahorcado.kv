@@ -1,0 +1,103 @@
+#:import SlideTransition kivy.uix.screenmanager.SlideTransition
+#:import SwapTransition kivy.uix.screenmanager.SwapTransition
+#:import WipeTransition kivy.uix.screenmanager.WipeTransition
+#:import FadeTransition kivy.uix.screenmanager.FadeTransition
+#:import RiseInTransition kivy.uix.screenmanager.RiseInTransition
+#:import FallOutTransition kivy.uix.screenmanager.FallOutTransition
+#:import NoTransition kivy.uix.screenmanager.NoTransition
+
+<Ventana>:
+    sec:sec
+    cont:cont
+    compo:compo
+    Screen:
+        name: "home"
+        canvas:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'fondo.jpg'
+        Image:
+            canvas.before:
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint: None, None
+            size:(300, 100)
+            pos_hint:{'center_x': .5,'center_y': .90}
+            source: 'logo_uip.png'
+        BoxLayout:
+            orientation: "vertical"
+            pos_hint:{'center_x': .5 , 'center_y': .70}
+            size_hint_y: .5
+            padding: 25
+            Label:
+                font_size: 30
+                markup: True
+                text: ('[b]BIENVENIDO AL JUEGO AHORCADO VERSION UIPIANOS[/b]')
+                color: (0, 0, 181/255, 0.7)
+            BoxLayout
+                Button:
+                    font_size: 50
+                    text:"Seleccione una \nCategoría"
+                    background_color: (1, 1, 1, 0.5)
+                BoxLayout:
+                    Button:
+                        markup: True
+                        font_size: 40
+                        text:('[b]Carreras[/b]')
+                        background_color: (0, 0, 181/255, 0.7)
+                        on_press:
+                            root.palabras("Carreras")
+                            root.current=("model")
+                            root.transition= FallOutTransition()
+                    Button:
+                        markup: True
+                        text:('[b]Animales[/b]')
+                        font_size: 40
+                        background_color: (0, 0, 181/255, 0.7)
+                        on_press:
+                            root.palabras("Animales")
+                            root.current=("model")
+                            root.transition= RiseInTransition()
+    Screen:
+        name: "model"
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            padding: 35
+            Label:
+                pos_hint:{"top":1}
+                size_hint_y:.2
+                text:"BIENVENIDO"
+            BoxLayout:
+                id:sec
+                size_hint_y: .3
+            BoxLayout:
+                spacing: 25
+                GridLayout:
+                    id: cont
+                    orientation: "vertical"
+                    cols:5
+                    size_hint_y: .6
+                GridLayout:
+
+                    padding: 50
+                    canvas:
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                            source: 'completo.gif'
+                    id: compo
+                    orientation: "vertical"
+                    cols:1
+                    size_hint_y: .7
+            Button:
+                size_hint_y: .1
+                text: "Menu Principal"
+                on_press:
+                    root.current=("home")
+                    root.transition= SwapTransition()
+             
+                          
+

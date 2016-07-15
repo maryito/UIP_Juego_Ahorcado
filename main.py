@@ -6,60 +6,68 @@ import  string as cadena
 from kivy.app import  App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import Image
-from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.button import  Button
+from kivy.uix.screenmanager import ScreenManager
 
-# print( cadena.ascii_uppercase)
-# print(cadena.ascii_letters)
-# print(cadena.ascii_lowercase)
-from kivy.uix.screenmanager import ScreenManager, Screen
 
-nombre=""
+# #print( cadena.ascii_uppercase)
+# #print(cadena.ascii_letters)
+# #print(cadena.ascii_lowercase)
 class Ventana(ScreenManager):
+    """
+    clase ventana se encargara de administrar todos las funciones y herramientas del juego
+    """
     acento={"A":"Á","E":"É","I":"Í","O":"Ó","U":"Ú"}
     animales = ["Armadillo", "Avestruz", "Ballena","Camaleon", "hormiga","Chimpance","Cocodrilo","Elefante","Escarabajo",
-                "Escorpion","Guepardo","Hipopotamo"]
+                "Escorpion","Guepardo","Hipopotamo","Flamenco","Gallina","Iguana","Jabali","Koala","Langostino","Leopardo",
+                "Mariposa","Mosquito","Nutria","Paloma","Puma","Rinoceronte","Salamandra","Sanguijuela","Serpiente",
+                "Tiburon","Tortuga","Venado","Zorro"]
     lincen=["electronica","sistemas","industrial","maritima","redes"]
     lista=[""]
     temp=[""]
     temp_acent=[""]
     contador = 0
 
-    nombre = ""
+    palabra = ""
     texto = ""
     categoria=""
 
-    def palabras(self, cat): # Palabra del ahorcado
+    def generar_palabra(self, cat): # Palabra del ahorcado
+        """
+        funcion encargada de generar la palabra dependiendo de la categoria que fue elegidad
+        :param cat: cd ?'
+        :return palabra para el  juego: 
+        """
         try:
             self.categoria = cat
             if self.ids.sec:
-                self.ids.sec.clear_widgets()
-
+                self.ids.sec.clear_widgets()    
 
             if cat=="Carreras":
                 self.ids.pista.text = "Pista es una de la muchas " + cat + " . Que se imparten en la UIP."
-                self.nombre = random.choice(self.lincen).upper()
+                self.palabra = random.choice(self.lincen).upper()
             else:
                 self.ids.pista.text = "Pista es un " + cat + "."
-                self.nombre = random.choice(self.animales).upper()
+                self.palabra = random.choice(self.animales).upper()
             # Limpiamos las lista
             self.limpiar()
 
             # llenamos la lista con la palabra
-            self.lista=[x for x in self.nombre]
+            self.lista=[x for x in self.palabra]
 
 
             # Creacion de objetos
             self.ids.cont.disabled = False
-            self.crear_secreta(self.nombre)
+            self.crear_secreta(self.palabra)
             self.crear_contenido()
-            print(self.lista, self.temp)
+            #print(self.lista, self.temp)
         except Exception as e:
-            print( e)
-    def crear_secreta(self, nombre): # barra de la palabra secreta
-       # print(nombre)
+            pass
+            #print( e)
+    def crear_secreta(self, palabra): # barra de la palabra secreta
+       # #print(palabra)
         try:    
             if self.ids.sec:
                 self.ids.sec.clear_widgets()
@@ -70,7 +78,7 @@ class Ventana(ScreenManager):
                 ale= random.sample(self.lista,  2)
             else:
                 ale=random.sample(self.lista,  1)
-            for x, c in enumerate(nombre.upper()):
+            for x, c in enumerate(palabra.upper()):
                 if c in ale:
                     bt = Button(id="bt_" + str(x), text=c,background_color=(0, 1, 255, 1) ,color=(0, 0, 0/255, 1))
                     self.temp.append(c)
@@ -112,7 +120,7 @@ class Ventana(ScreenManager):
         try:    
             letra= evet.text
             #logica de puntos
-            print(self.contador)
+            #print(self.contador)
 
             # # Busquedad de acentos tildes
             # if letra in self.acento:
@@ -130,17 +138,17 @@ class Ventana(ScreenManager):
                             self.temp[x]=letra
                             self.upate_secreta(self.temp)
                     if self.temp == self.lista:
-                        print("Ganaste")
+                        #print("Ganaste")
                         self.terminar(True)
                     else:
-                        print("Muy bien ")
+                        pass
+                        #print("Muy bien ")
             else:
-                print("Ops mala seleccion")
-
+                #print("Ops mala seleccion")
                 self.contador += 1
                 self.crear_Componentes()
                 if self.contador == 7:
-                    print("Perdiste")
+                    #print("Perdiste")
                     self.ids.cont.disabled = True  # desabilitamos la letras
                     self.terminar(False)
 
@@ -159,14 +167,14 @@ class Ventana(ScreenManager):
                           "data/7.png"]
             tam= len(lista_comp)
             ind= self.contador-1
-            #print(ind, "  contador", self.contador, tam, "source ",lista_comp[ind])
+            ##print(ind, "  contador", self.contador, tam, "source ",lista_comp[ind])
             ima= Image( source=lista_comp[ind] )
             self.ids.compo.add_widget(ima)
             # for x in range(self.contador):
             #     bt = Image(source=lista_comp[x])
             #     self.ids.compo.add_widget(bt)
             #
-            #     print(x, tam)
+            #     #print(x, tam)
         except Exception as e:
             raise e
     def terminar(self, opc):
@@ -209,25 +217,30 @@ class Ventana(ScreenManager):
         self.popup.open()
 
     def ev_home(self, home):
-        self.palabras(self.categoria)
+        self.generar_palabra(self.categoria)
         if home.text=="Menu Principal":
             self.current ="home"
         self.popup.dismiss()
 
     def limpiar(self):
-        try:    
+        try:
             self.ids.compo.clear_widgets()
-            self.lista.clear()
-            self.temp.clear()
+            self.lista=[]
+            self.temp=[]
+
             self.contador=0
         except Exception as e:
-            print("error 01 - clear data "+str(e))
-
+            pass
+            #print("error 01 - clear data "+str(e))
+    
 
 
 class AhorcadoApp(App):
     def build(self):
         return  Ventana()
+
+    def on_pause(self):
+        return True
 
 if __name__ == "__main__":
     AhorcadoApp().run()

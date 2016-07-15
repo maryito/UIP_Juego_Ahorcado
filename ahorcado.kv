@@ -10,13 +10,14 @@
     sec:sec
     cont:cont
     compo:compo
+    pista:pista
     Screen:
         name: "home"
         canvas:
             Rectangle:
                 pos: self.pos
                 size: self.size
-                source: 'fondo.jpg'
+                source: 'data/ini/fondoedi.jpg'
         Image:
             canvas.before:
                 Rectangle:
@@ -34,21 +35,23 @@
             Label:
                 font_size: 30
                 markup: True
-                text: ('[b]BIENVENIDO AL JUEGO AHORCADO VERSION UIPIANOS[/b]')
+                text: ('[b]BIENVENIDO AL JUEGO AHORCADO VERSION UIP[/b]')
                 color: (0, 0, 181/255, 0.7)
             BoxLayout
                 Button:
                     font_size: 50
                     text:"Seleccione una \nCategoría"
-                    background_color: (1, 1, 1, 0.5)
+                    background_color: (0, 0, 0/255, 0)
+                    color: (0, 0, 0/255, 1)
                 BoxLayout:
+                    spacing: 10
                     Button:
                         markup: True
                         font_size: 40
                         text:('[b]Carreras[/b]')
                         background_color: (0, 0, 181/255, 0.7)
                         on_press:
-                            root.palabras("Carreras")
+                            root.generar_palabra("Carreras")
                             root.current=("model")
                             root.transition= FallOutTransition()
                     Button:
@@ -57,19 +60,27 @@
                         font_size: 40
                         background_color: (0, 0, 181/255, 0.7)
                         on_press:
-                            root.palabras("Animales")
+                            root.generar_palabra("Animal")
                             root.current=("model")
                             root.transition= RiseInTransition()
     Screen:
         name: "model"
+        canvas:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'data/ini/fondoedi9.jpg'
         BoxLayout:
             orientation: "vertical"
             spacing: 10
             padding: 35
             Label:
+                id: pista
                 pos_hint:{"top":1}
                 size_hint_y:.2
-                text:"BIENVENIDO"
+                text:"BIENVENIDO \n"+ root.categoria
+                color:(0, 0, 0/255, 1)
+
             BoxLayout:
                 id:sec
                 size_hint_y: .3
@@ -80,20 +91,13 @@
                     orientation: "vertical"
                     cols:5
                     size_hint_y: .6
-                GridLayout:
-
-                    padding: 50
-                    canvas:
-                        Rectangle:
-                            pos: self.pos
-                            size: self.size
-                            source: 'completo.gif'
+                BoxLayout:
                     id: compo
-                    orientation: "vertical"
-                    cols:1
-                    size_hint_y: .7
+
             Button:
                 size_hint_y: .1
+                size_hint_x: .5
+                pos_hint: {'center_x': 0.5}
                 text: "Menu Principal"
                 on_press:
                     root.current=("home")

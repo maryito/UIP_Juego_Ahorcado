@@ -17,7 +17,7 @@
             Rectangle:
                 pos: self.pos
                 size: self.size
-                source: 'data/ini/fondoedi.jpg'
+                source: 'imagen/fondo.jpg'
         Image:
             canvas.before:
                 Rectangle:
@@ -26,7 +26,7 @@
             size_hint: None, None
             size:(300, 100)
             pos_hint:{'center_x': .5,'center_y': .90}
-            source: 'logo_uip.png'
+            source: 'imagen/logo_uip.png'
         BoxLayout:
             orientation: "vertical"
             pos_hint:{'center_x': .5 , 'center_y': .70}
@@ -69,11 +69,7 @@
             Rectangle:
                 pos: self.pos
                 size: self.size
-                source: 'data/ini/fondoedi9.jpg'
         FloatLayout:
-            # orientation: "vertical"
-            # spacing: 10
-            #padding: 35
             Label:
                 id: pista
                 pos_hint:{"top":1}
@@ -99,10 +95,9 @@
                 pos_hint: {'x': 0, "y":0.07}
                 size_hint_y: .3
             Button:
-                background_normal: "home.png"
-                background_down: "home.png"
+                background_normal: "imagen/home.png"
+                background_down: "imagen/home.png"
                 size_hint: (None, .09)
-                #size: (sp(80), sp(80))
                 pos_hint: {'center_x': 0.5}
                 on_press:
                     root.current=("home")

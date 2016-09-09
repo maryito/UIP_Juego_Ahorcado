@@ -23,18 +23,20 @@ class Ventana(ScreenManager):
     acento={"A":"Á","E":"É","I":"Í","O":"Ó","U":"Ú"}
     # Listado de todos loas animales a utilizar
     animales = ["Armadillo", "Avestruz", "Ballena","Camaleon", "hormiga","Chimpance","Cocodrilo",
-                "  Elefante","Escarabajo","Escorpion","Guepardo","Hipopotamo","Flamenco","Gallina",
+                "Elefante","Escarabajo","Escorpion","Guepardo","Hipopotamo","Flamenco","Gallina",
                 "Iguana","Jabali","Koala","Langostino","Leopardo","Mariposa","Mosquito","Nutria",
                 "Paloma","Puma","Rinoceronte","Salamandra","Sanguijuela","Serpiente","Tiburon",
-                "Tortuga","Venado","Zorro"]
+                "Tortuga","Venado","Zorro", "loro","anaconda","zariguella","canguro","chimpance",
+                "aguila","lagartija","ornitorrinco"]
     # listado de todas las carreras a utilizar
     lincen=["electronica","sistemas","industrial","maritima","redes",
             "Hoteleria", "Gastronomia", "Turismo",
-            "Arquitectura", "Comunicacion", "Diseño","Publicidad",
+            "Arquitectura", "Comunicacion", "Diseno","Publicidad",
             "Derecho",
             "Logistica",
             "Medicina","Enfermeria","Psicologia","Nutricion",
-            "Contabilidad"]
+            "Contabilidad","mercadeo","grafico","interiores",
+            "odontologia","ortodoncia","criminologia"]
 
     lista=[""]
     temp=[""]
@@ -55,7 +57,7 @@ class Ventana(ScreenManager):
         :return palabra para el  juego: 
         """
         try:
-            self.ids.compo.source = "hm.jpg"
+            self.ids.compo.source = "imagen/hm.jpg"
             self.categoria = cat
             if self.ids.sec:
                 self.ids.sec.clear_widgets()    
@@ -64,7 +66,7 @@ class Ventana(ScreenManager):
                 self.ids.pista.text = "Es una de la muchas " + cat + " . Que se imparten en la UIP."
                 self.palabra = random.choice(self.lincen).upper()
             else:
-                self.ids.pista.text = "Es uno de los muchos " + cat + "."
+                self.ids.pista.text = "Es uno de los muchos " + cat + "es."
                 self.palabra = random.choice(self.animales).upper()
             # Limpiamos las lista
             self.limpiar()
@@ -88,9 +90,9 @@ class Ventana(ScreenManager):
                 self.ids.sec.clear_widgets()
             tam= len(self.lista)
             if tam>8:
-                ale = random.sample(self.lista, 3)
+                ale = random.sample(self.lista, 2)#3
             elif tam>6:
-                ale= random.sample(self.lista,  2)
+                ale= random.sample(self.lista,  1)#2
             else:
                 ale=random.sample(self.lista,  1)
             for x, c in enumerate(palabra.upper()):
@@ -153,23 +155,23 @@ class Ventana(ScreenManager):
                             self.upate_secreta(self.temp)
                     if self.temp == self.lista:
                         #print("Ganaste")
-                        db_path = os.path.join(self.directory, 'gano.wav')
+                        db_path = os.path.join(self.directory, 'sonido/gano.wav')
                         son = SoundLoader.load(db_path)
                         self.terminar(True)
                     else:
-                        db_path = os.path.join(self.directory,'buena.wav')
+                        db_path = os.path.join(self.directory,'sonido/buena.wav')
                         son = SoundLoader.load(db_path)
                         #print("Muy bien ")
             else:
                 #print("Ops mala seleccion")
-                db_path = os.path.join(self.directory, 'mala.wav')
+                db_path = os.path.join(self.directory, 'sonido/mala.wav')
                 son = SoundLoader.load(db_path)
                 
                 self.contador += 1
                 self.crear_Componentes()
                 if self.contador == 7:
                     #print("Perdiste")
-                    db_path = os.path.join(self.directory, 'perdio.wav')
+                    db_path = os.path.join(self.directory, 'sonido/perdio.wav')
                     son = SoundLoader.load(db_path)
 
                     self.ids.cont.disabled = True  # desabilitamos la letras
@@ -186,9 +188,9 @@ class Ventana(ScreenManager):
         try:    
             if self.ids.compo:
                 self.ids.compo.clear_widgets()
-            lista_comp = ["data/1.png", "data/2.png","data/3.png",
-                          "data/4.png","data/5.png","data/6.png",
-                          "data/7.png"]
+            lista_comp = ["imagen/ahorcado/1.png", "imagen/ahorcado/2.png","imagen/ahorcado/3.png",
+                          "imagen/ahorcado/4.png","imagen/ahorcado/5.png","imagen/ahorcado/6.png",
+                          "imagen/ahorcado/7.png"]
             tam= len(lista_comp)
             ind= self.contador-1
             ##print(ind, "  contador", self.contador, tam, "source ",lista_comp[ind])
@@ -211,12 +213,12 @@ class Ventana(ScreenManager):
         if opc==True:
             texto="".join(self.lista)
             texto= 'La Palabra fue '+texto
-            bt= Image(source= "data/ganaste.png")
+            bt= Image(source= "imagen/ahorcado/ganaste.png")
         else:
             texto="Ahorcado"
             pal = "".join(self.lista)
             texto="La palabra era  "+pal
-            bt = Image(source="data/perdiste.jpg")
+            bt = Image(source="imagen/ahorcado/perdiste.jpg")
             #bt =Label(font_size= 40 ,text= mensaje)
 
         atras= Button(text="Intentarlo Nuevamente ")
